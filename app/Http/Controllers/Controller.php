@@ -17,4 +17,13 @@ class Controller extends BaseController
     {
         return Auth::guard('api');
     }
+
+    public function respondWithToken($token)
+    {
+        return $this->successResponse([
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ], 'Authorized');
+    }
 }
