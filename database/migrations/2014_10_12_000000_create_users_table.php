@@ -20,8 +20,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('level')->default('user');
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(false)->comment('0 => menunggu; 1 => accept admin;');
             $table->uuid('uuid');
+            $table->string('otp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

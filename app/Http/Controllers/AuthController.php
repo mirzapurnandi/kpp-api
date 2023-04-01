@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +32,26 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    public function register(Request $request, UserService $userService)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $result = $userService->insertData($request);
+        if ($result['error'] === true) {
+            return $this->errorResponse($result['message']);
+        }
+
+        return $this->successResponse($result['data'], $result['message']);
     }
 
     public function logout()
