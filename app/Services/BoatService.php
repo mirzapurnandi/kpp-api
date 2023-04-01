@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Boat;
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 
@@ -52,6 +51,36 @@ class BoatService
 
             $error = false;
             $message = 'Successfully insert Boat';
+        } catch (\Throwable $th) {
+            $error = true;
+            $message = $th->getMessage();
+        }
+
+        return [
+            'error' => $error,
+            'message' => $message,
+            'data' => $data
+        ];
+    }
+
+    public function verifikasiData($request)
+    {
+        $error = true;
+        $message = '';
+        $data = [];
+        try {
+            $error = false;
+
+            $check = Boat::where('code', $request->code)->first();
+            if ($check) {
+                $data = Boat::find($check->id);
+                $data->status = $request->status;
+                $data->note = $request->note ? $request->note : null;
+                $data->save();
+                $message = 'Successfully update Status Boat';
+            } else {
+                $message = 'Boat Not Found...';
+            }
         } catch (\Throwable $th) {
             $error = true;
             $message = $th->getMessage();

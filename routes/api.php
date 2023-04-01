@@ -34,4 +34,5 @@ Route::group([
 ], function () {
     Route::get('index', [UserController::class, 'index']);
     Route::post('verifikasi', [UserController::class, 'verifikasi']);
+    Route::post('boat/verifikasi', [BoatController::class, 'verifikasi']);
 });
