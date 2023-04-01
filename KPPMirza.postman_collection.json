@@ -1,0 +1,466 @@
+{
+	"info": {
+		"_postman_id": "ec94c99b-4040-4111-bd10-fa9be73808f4",
+		"name": "KPPMirza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7962473"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "UserIndex",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admin/index?status=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"index"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserVerifikasi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\" : 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admin/verifikasi",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"verifikasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BoatVerifikasi",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\": \"B-0001\",\n    \"status\": 2,\n    \"note\": \"data belum lengkap\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admin/boat/verifikasi",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"boat",
+								"verifikasi"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response body data should contain api_token', () => {",
+							"    const results = pm.response.json();",
+							"    const { result } = results;",
+							"    pm.environment.set(\"token\", result.token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"testing@gmail.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response body data should contain api_token', () => {",
+							"    const results = pm.response.json();",
+							"    const { result } = results;",
+							"    pm.environment.set(\"TOKEN\", result.token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Mirza Purnandi\",\n    \"email\": \"mirza.purnandi@gmail.com\",\n    \"password\": \"password\",\n    \"password_confirmation\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/register",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"mirza.purnandi@gmail.com\", \n    \"subject\": \"Testing Subject\", \n    \"message\":\"isi pesan\",\n    \"token\": \"1dy09eODblmBUCTnIwiY-hbXdzCpZC3jyR4l0ZJgqQqO9L7J3zsZOobdJ\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://script.google.com/macros/s/AKfycbxFNsyMXW8chGL8YhdQE1Q1yBbx5XEsq-BJeNF1a6sKoowaL_9DtcUvE_Pp0r5ootgMhQ/exec",
+					"protocol": "https",
+					"host": [
+						"script",
+						"google",
+						"com"
+					],
+					"path": [
+						"macros",
+						"s",
+						"AKfycbxFNsyMXW8chGL8YhdQE1Q1yBbx5XEsq-BJeNF1a6sKoowaL_9DtcUvE_Pp0r5ootgMhQ",
+						"exec"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Konfirmasi",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"otp\": \"477429\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/konfirmasi",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"konfirmasi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BoatInsert",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "code",
+							"value": "B-0001",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Nama Kapal 1",
+							"type": "text"
+						},
+						{
+							"key": "pemilik",
+							"value": "Pemilik Boat",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "Jakarta Selatan",
+							"type": "text"
+						},
+						{
+							"key": "ukuran",
+							"value": "120 x 120 M",
+							"type": "text"
+						},
+						{
+							"key": "kapten",
+							"value": "Jack Sparow",
+							"type": "text"
+						},
+						{
+							"key": "jumlah",
+							"value": "27",
+							"type": "text"
+						},
+						{
+							"key": "foto",
+							"type": "file",
+							"src": "/home/mirza/Pictures/Screenshots/Screenshot from 2023-03-12 13-50-12.png"
+						},
+						{
+							"key": "no_izin",
+							"value": "23492339-dddd",
+							"type": "text"
+						},
+						{
+							"key": "document",
+							"type": "file",
+							"src": "/home/mirza/Documents/new folder/Herbalife - Event Ticket Site.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}/boat/insert",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BoatIndex",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/boat/index",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"index"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
