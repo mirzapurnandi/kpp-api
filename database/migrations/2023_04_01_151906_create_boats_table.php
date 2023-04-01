@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('boats', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('code');
             $table->string('name');
             $table->string('pemilik');
@@ -28,6 +29,8 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->enum('status', [0, 1, 2])->default(false)->comment('0 => waiting; 1 => accept; 2 => reject;');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BoatController;
 use App\Http\Controllers\UserController;
 
 Route::group([
@@ -17,6 +18,14 @@ Route::group([
     Route::get('me', [AuthController::class, 'index']);
     Route::post('konfirmasi', [AuthController::class, 'konfirmasi']);
     Route::post('logout', [AuthController::class, 'logout']);
+});
+
+// Route for User
+Route::group([
+    'middleware' => ['auth:api', 'cekstatus'], 'prefix' => 'v1'
+], function () {
+    //Route::get('boat/index', [BoatController::class, 'index']);
+    Route::post('boat/insert', [BoatController::class, 'insert']);
 });
 
 // Route for Admin
