@@ -24,8 +24,16 @@ class UserService
         $data = [];
         try {
             if ($id != "") {
-                $data = User::where('id', $id)->first();
-                $message = 'Get Data User';
+                $data = User::where('id', $id)->where('email_verified_at', '!=', null)->first();
+                if ($data) {
+                    if ($data->status == 0) {
+                        $message = 'Akun Anda Sedang dalam di verifikasi oleh admin';
+                    } else {
+                        $message = 'Get Data User';
+                    }
+                } else {
+                    $message = 'User Belum konfirmasi kode OTP';
+                }
             } else {
                 $data = User::all();
                 $message = 'Get All Data User';
@@ -91,5 +99,53 @@ class UserService
     public function deleteData($id)
     {
         //
+    }
+
+    public function konfirmasiData($otp)
+    {
+        $error = true;
+        $message = '';
+        $data = [];
+        try {
+            $user = auth()->user();
+            $check = User::where('otp', $otp)->first();
+            $error = false;
+            if ($check) {
+                $message = 'Successfully';
+                $data = User::find($user->id);
+                $data->otp = null;
+                $data->email_verified_at = now();
+                $data->save();
+            }
+        } catch (\Throwable $th) {
+            $error = true;
+            $message = $th->getMessage();
+        }
+
+        return [
+            'error' => $error,
+            'message' => $message,
+            'data' => $data
+        ];
+    }
+
+    public function ExampleData($datas)
+    {
+        $error = true;
+        $message = '';
+        $data = [];
+        try {
+            $error = false;
+            $message = 'Successfully';
+        } catch (\Throwable $th) {
+            $error = true;
+            $message = $th->getMessage();
+        }
+
+        return [
+            'error' => $error,
+            'message' => $message,
+            'data' => $data
+        ];
     }
 }

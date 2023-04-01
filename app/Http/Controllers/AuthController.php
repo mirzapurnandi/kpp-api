@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function __construct()
+    protected $userService;
+
+    public function __construct(UserService $userService)
     {
-        //
+        $this->userService = $userService;
+    }
+
+    public function index()
+    {
+        $result = $this->userService->getData([], $this->guard()->id());
+        if ($result['error'] === true) {
+            return $this->errorResponse($result['message']);
+        }
+        return $this->successResponse($result['data'], $result['message']);
     }
 
     public function login(Request $request)
@@ -34,7 +45,7 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function register(Request $request, UserService $userService)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -46,11 +57,20 @@ class AuthController extends Controller
             return $this->errorResponse($validator->errors(), 422);
         }
 
-        $result = $userService->insertData($request);
+        $result = $this->userService->insertData($request);
         if ($result['error'] === true) {
             return $this->errorResponse($result['message']);
         }
 
+        return $this->successResponse($result['data'], $result['message']);
+    }
+
+    public function konfirmasi(Request $request)
+    {
+        $result = $this->userService->konfirmasiData($request->otp);
+        if ($result['error'] == true) {
+            return $this->errorResponse($result['message']);
+        }
         return $this->successResponse($result['data'], $result['message']);
     }
 
