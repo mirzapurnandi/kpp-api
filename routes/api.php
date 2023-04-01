@@ -24,7 +24,7 @@ Route::group([
 Route::group([
     'middleware' => ['auth:api', 'cekstatus'], 'prefix' => 'v1'
 ], function () {
-    //Route::get('boat/index', [BoatController::class, 'index']);
+    Route::get('boat/index', [BoatController::class, 'index']);
     Route::post('boat/insert', [BoatController::class, 'insert']);
 });
 

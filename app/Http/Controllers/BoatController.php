@@ -15,9 +15,13 @@ class BoatController extends Controller
         $this->boatService = $boatService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $result = $this->boatService->getData($request);
+        if ($result['error'] === true) {
+            return $this->errorResponse($result['message']);
+        }
+        return $this->successResponse($result['data'], $result['message']);
     }
 
     public function insert(Request $request)

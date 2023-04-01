@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Models\Boat;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Http;
 
 class BoatService
 {
@@ -13,6 +11,35 @@ class BoatService
     public function __construct()
     {
         $this->name = 'Boat';
+    }
+
+    public function getData($request)
+    {
+        $error = true;
+        $message = '';
+        $data = [];
+        try {
+            $user = auth()->user();
+            if ($user->level == 'admin') {
+                $data = Boat::all();
+            } else {
+                $data = Boat::where('user_id', $user->id);
+                if ($request->status > 0) $data = $data->where('status', $request->status);
+                $data = $data->get();
+            }
+
+            $error = false;
+            $message = 'Successfully';
+        } catch (\Throwable $th) {
+            $error = true;
+            $message = $th->getMessage();
+        }
+
+        return [
+            'error' => $error,
+            'message' => $message,
+            'data' => $data
+        ];
     }
 
     public function insertData($request)

@@ -24,7 +24,7 @@ class UserService
         $data = [];
         try {
             if ($id != "") {
-                $data = User::where('id', $id)->where('email_verified_at', '!=', null)->first();
+                $data = User::with('boats')->where('id', $id)->where('email_verified_at', '!=', null)->first();
                 if ($data) {
                     if ($data->status == 0) {
                         $message = 'Akun Anda Sedang dalam di verifikasi oleh admin';

@@ -24,4 +24,9 @@ class Boat extends Model
         'status',
         'note'
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
