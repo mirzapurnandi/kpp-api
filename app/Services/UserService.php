@@ -35,7 +35,11 @@ class UserService
                     $message = 'User Belum konfirmasi kode OTP';
                 }
             } else {
-                $data = User::all();
+                $data = User::where('level', 'user');
+                if (isset($datas['status'])) {
+                    $data = $data->where('status', $datas['status']);
+                }
+                $data = $data->get();
                 $message = 'Get All Data User';
             }
             $error = false;
@@ -116,6 +120,34 @@ class UserService
                 $data->otp = null;
                 $data->email_verified_at = now();
                 $data->save();
+            }
+        } catch (\Throwable $th) {
+            $error = true;
+            $message = $th->getMessage();
+        }
+
+        return [
+            'error' => $error,
+            'message' => $message,
+            'data' => $data
+        ];
+    }
+
+    public function verifikasiData($datas)
+    {
+        $error = true;
+        $message = '';
+        $data = [];
+        try {
+            $error = false;
+            $check = User::where(['status' => 0, 'id' => $datas['user_id']])->first();
+            if ($check) {
+                $data = User::find($check->id);
+                $data->status = true;
+                $data->save();
+                $message = 'Successfully update Status';
+            } else {
+                $message = 'User Not Found...';
             }
         } catch (\Throwable $th) {
             $error = true;
